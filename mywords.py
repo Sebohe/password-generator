@@ -4,7 +4,7 @@ import secrets
 
 rng = secrets.SystemRandom()
 
-randbe = secrets.randbelow
+randBelow = secrets.randbelow
 
 word_dict = {}
 S_CHARS = '`~!@#$%^&*()-_+=+?/><,'
@@ -14,29 +14,26 @@ with open('eff_large_wordlist.txt','r') as words_list:
         line = line.split("\t")
         word_dict[line[0]] = line[1].strip()
 
+
 passw = ''
-for x in range(rng.randrange(7,10)):
-    num = 0    
-    while num < 11111:
-        num = randbe(66666)
+
+for x in range(rng.randrange(4,10)):
+    goodNumber = False
+    while not goodNumber:
+        num = rng.randrange(11111,66666)
         #Since the words list is a dice we can't have any numbers 0789
+        goodNumber = True
         for digit in "0789":
             if digit in str(num):
-                num = 0 
+                goodNumber = False
 
 
     passw = passw + word_dict[str(num)]
-   
     rand1 = rng.random()
     rand2 = rng.random()
     #print ('{}, {}'.format(rand1, rand2))
     
-    if rand2 < rand1:
-        
-       passw = passw + rng.choice(S_CHARS)
-
-
-
+    passw = passw + rng.choice(S_CHARS) if rand2 < rand1 else passw
 
 print (len(passw))
 print (passw)
