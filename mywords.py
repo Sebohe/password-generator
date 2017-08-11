@@ -4,8 +4,6 @@ import secrets
 
 rng = secrets.SystemRandom()
 
-randBelow = secrets.randbelow
-
 word_dict = {}
 S_CHARS = '`~!@#$%^&*()-_+=+?/><,'
 
@@ -17,23 +15,26 @@ with open('eff_large_wordlist.txt','r') as words_list:
 
 passw = ''
 
-for x in range(rng.randrange(4,10)):
-    goodNumber = False
-    while not goodNumber:
-        num = rng.randrange(11111,66666)
-        #Since the words list is a dice we can't have any numbers 0789
-        goodNumber = True
-        for digit in "0789":
-            if digit in str(num):
-                goodNumber = False
+#this determines the word length
+for x in range(6):
+    passw = ''
+    for x in range(rng.randrange(4,10)):
+        goodNumber = False
+        while not goodNumber:
+            num = rng.randrange(11111,66666)
+            #Since the words list is a dice we can't have any numbers 0789
+            goodNumber = True
+            for digit in "0789":
+                if digit in str(num):
+                    goodNumber = False
 
 
-    passw = passw + word_dict[str(num)]
-    rand1 = rng.random()
-    rand2 = rng.random()
-    #print ('{}, {}'.format(rand1, rand2))
+        passw = passw + word_dict[str(num)]
+        rand1 = rng.random()
+        rand2 = rng.random()
+        #print ('{}, {}'.format(rand1, rand2))
     
-    passw = passw + rng.choice(S_CHARS) if rand2 < rand1 else passw
+        passw = passw + rng.choice(S_CHARS) if rand2 < rand1 else passw
 
-print (len(passw))
-print (passw)
+    print (len(passw))
+    print (passw)
