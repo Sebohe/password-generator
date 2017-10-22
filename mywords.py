@@ -36,5 +36,9 @@ for x in range(6):
     
         passw = passw + rng.choice(S_CHARS) if rand2 < rand1 else passw
 
+
+    choice = rng.choice(passw)
+    passw = passw.replace(choice, choice.upper())
+
     print (len(passw))
     print (passw)
