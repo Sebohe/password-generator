@@ -1,36 +1,46 @@
 #!/usr/bin/env python3
 import secrets
-#import hashlib
 
 rng = secrets.SystemRandom()
-
-word_dict = {}
 S_CHARS = '`~!@#$%^&*()-_+=+?/><,'
 
-with open('eff_large_wordlist.txt','r') as words_list:
-    for line in words_list:
-        line = line.split("\t")
-        word_dict[line[0]] = line[1].strip()
+def rollDice(dieQty=5):
+    min = 1
+    max = 6
+    num =''
+    for x in range(dieQty):
+        n = str(rng.randrange(min, max))
+        num = num + n
+
+    return num
 
 
-passw = ''
+if __name__ == '__main__':
 
-#this determines the word length
-for x in range(6):
-    passw = ''
-    for x in range(rng.randrange(4,10)):
-        goodNumber = False
-        while not goodNumber:
-            num = rng.randrange(11111,66666)
-            #Since the words list is a dice we can't have any numbers 0789
-            goodNumber = True
-            for digit in "0789":
-                if digit in str(num):
-                    goodNumber = False
+    word_dict = {}
+    with open('eff_large_wordlist.txt','r') as words_list:
+        for line in words_list:
+            line = line.split("\t")
+            word_dict[line[0]] = line[1].strip()
 
-        newWord = word_dict[str(num)]
-        passw = passw + newWord.title()
+    # Number of passwords to generate
+    for x in range(6):
+        passw = ''
+        sCharPresent = False
+        #this determines the word length
+        for x in range(rng.randrange(4,10)):
+            num = rollDice() 
 
-    passw = passw + rng.choice(S_CHARS)
-    print (len(passw))
-    print (passw)
+            rand1 = rng.random()
+            rand2 = rng.random()
+            if not sCharPresent:
+                if rand2 < rand1:
+                    sCharPresent = True
+                    passw = passw + rng.choice(S_CHARS)
+
+            passw = passw + word_dict[str(num)].title()
+
+        passw = passw + rng.choice(S_CHARS)
+        print (len(passw))
+        print (passw)
+        print ()
