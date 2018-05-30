@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import secrets
+from os import path
 
 rng = secrets.SystemRandom()
 S_CHARS = '`~!@#$%^&*()-_+=+?/><,'
@@ -17,8 +18,9 @@ def rollDice(dieQty=5):
 
 if __name__ == '__main__':
 
+    curdir  = path.dirname(path.abspath(__file__))
     word_dict = {}
-    with open('eff_large_wordlist.txt','r') as words_list:
+    with open(curdir + '/eff_large_wordlist.txt','r') as words_list:
         for line in words_list:
             line = line.split("\t")
             word_dict[line[0]] = line[1].strip()
@@ -43,4 +45,3 @@ if __name__ == '__main__':
         passw = passw + rng.choice(S_CHARS)
         print (len(passw))
         print (passw)
-        print ()
